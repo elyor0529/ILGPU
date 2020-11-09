@@ -573,11 +573,6 @@ namespace ILGPU.IR.Transformations
         {
             // Keep particular values that cannot be rewritten by this pass
             rewriter.Add<Parameter>((_, value) => value.Type.IsStructureType, Keep);
-            rewriter.Add<ArrayValue>((_, value) => value.Type.IsStructureType, Keep);
-            rewriter.Add<GetArrayElement>(
-                (_, value) => value.Type.IsStructureType, Keep);
-            rewriter.Add<SetArrayElement>(
-                (_, value) => value.Type.IsStructureType, Keep);
 
             // Rewrite known values
             rewriter.Add<NullValue>((_, value) => value.Type.IsStructureType, Lower);
