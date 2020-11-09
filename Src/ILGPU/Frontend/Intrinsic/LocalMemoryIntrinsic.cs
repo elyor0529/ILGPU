@@ -58,10 +58,14 @@ namespace ILGPU.Frontend.Intrinsic
             var allocationType = builder.CreateType(genericArgs[0]);
 
             return attribute.IntrinsicKind == LocalMemoryIntrinsicKind.Allocate
-                ? builder.CreateAlloca(
+                ? builder.CreateNewView(
                     location,
-                    allocationType,
-                    MemoryAddressSpace.Local)
+                    builder.CreateAlloca(
+                        location,
+                        allocationType,
+                        MemoryAddressSpace.Local,
+                        context[0]),
+                    context[0])
                 : throw context.Location.GetNotSupportedException(
                     ErrorMessages.NotSupportedSharedMemoryIntrinsic,
                     attribute.IntrinsicKind.ToString());
